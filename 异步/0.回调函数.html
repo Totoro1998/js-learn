@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>回调函数</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+        const loadImage = (url,callback) => {
+            if(!url){
+                callback('url为空',undefined)
+            }else{
+                const image = new Image()
+                image.onload = (e) => callback('加载成功',image)
+                image.onerror = (e) => callback('加载失败',e)
+                image.src = url
+            }
+        }
+        const loadCallback = (message,data)=>{
+            console.log(message)
+            console.log(data)
+        }
+        loadImage('',loadCallback)
+        loadImage('a.svg',loadCallback)
+        loadImage('./images/毛笔.svg',loadCallback)
+    </script>
+  </body>
+</html>
