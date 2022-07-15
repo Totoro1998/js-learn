@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>函数和for循环</title>
+    <style>
+        .container{
+            position: relative;
+        }
+        .sub1{
+            position: absolute;
+        }
+        .sub2{
+            position: relative;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+        <div class="container">
+            <div class="sub1">sub1</div>
+            <div class="sub2">sub2</div>
+        </div>
+    </div>
+    <script>
+        function greeting(){
+            console.log('你好啊')
+        }
+        var greeting = 'hello'
+        console.log(greeting) //hello
+    </script>
+    <script type="module">
+        function greeting(){
+            console.log('你好啊')
+        }
+        var greeting = 'hello'
+        console.log(greeting) //Uncaught SyntaxError: Identifier 'greeting' has already been declared
+    </script>
+  </body>
+</html>
