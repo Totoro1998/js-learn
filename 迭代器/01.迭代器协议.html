@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let it = idMaker();
+      console.log(it.next().value);
+      console.log(it.next().value);
+      console.log(it.next().value);
+      function idMaker() {
+        let index = 0;
+        return {
+          next: function () {
+            return { value: index++, done: false };
+          },
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Counter {
+        constructor(limit) {
+          this.limit = limit;
+        }
+        [Symbol.iterator]() {
+          let count = 1,
+            limit = this.limit;
+          return {
+            next() {
+              if (count <= limit) {
+                return { done: false, value: count++ };
+              } else {
+                return { done: true };
+              }
+            },
+            return() {
+              console.log("Exiting early");
+              return { done: true };
+            },
+          };
+        }
+      }
+      let counter1 = new Counter(5);
+      for (let i of counter1) {
+        if (i > 2) {
+          break;
+        }
+        console.log(i);
+      }
+      // 1
+      // 2
+      // Exiting early
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //NodeList 对象是类似数组的对象，本来就具有遍历接口，可以直接遍历。
+      //我们将它的遍历接口改成数组的Symbol.iterator属性，可以看到没有任何影响。
+      NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+      [...document.querySelectorAll("div")]; // 可以执行了
+      //对于类似数组的对象（存在数值键名和length属性）,必须是数值键名。有一个简便方法
+      let iterable = {
+        0: "a",
+        1: "b",
+        2: "c",
+        length: 3,
+        [Symbol.iterator]: Array.prototype[Symbol.iterator],
+      };
+      for (let item of iterable) {
+        console.log(item); // 'a', 'b', 'c'
+      }
+    </script>
+  </body>
+</html>

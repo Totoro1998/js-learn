@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let value = 0;
+      const obj = {
+        [Symbol.iterator]: function () {
+          return {
+            next: function () {
+              if (value < 10) {
+                value++;
+                return {
+                  value: value,
+                  done: false,
+                };
+              } else {
+                return { done: true };
+              }
+            },
+          };
+        },
+      };
+      const arr = [1, 2, 3];
+      for (let item of obj) {
+        console.log(item);
+      }
+
+      class Foo {
+        [Symbol.iterator]() {
+          return {
+            next() {
+              return { done: false, value: "foo" };
+            },
+          };
+        }
+      }
+      let f = new Foo();
+      const f_iterator = f[Symbol.iterator]();
+      console.log(f_iterator);
+      console.log(f_iterator.next());
+    </script>
+  </body>
+</html>

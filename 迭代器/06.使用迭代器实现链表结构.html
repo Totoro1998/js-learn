@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Obj(value) {
+        this.value = value;
+        this.next = null;
+      }
+      Obj.prototype[Symbol.iterator] = function () {
+        let current = this;
+        function next() {
+          if (current) {
+            let value = current.value;
+            current = current.next;
+            return { done: false, value };
+          } else {
+            return { done: true };
+          }
+        }
+        return { next };
+      };
+      const one = new Obj(1);
+      const two = new Obj(2);
+      const three = new Obj(3);
+      one.next = two;
+      two.next = three;
+      for (var i of one) {
+        console.log(i); // 1, 2, 3
+      }
+    </script>
+  </body>
+</html>
