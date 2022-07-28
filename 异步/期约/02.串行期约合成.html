@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function addTwo(x) {
+        return x + 2;
+      }
+      function addThree(x) {
+        return x + 3;
+      }
+      function addFive(x) {
+        return x + 5;
+      }
+      function addTen(x) {
+        return addFive(addTwo(addThree(x)));
+      }
+      console.log(addTen(7)); // 17
+
+      function addTen(x) {
+        return Promise.resolve(x).then(addTwo).then(addThree).then(addFive);
+      }
+
+      function addTen(x) {
+        return [addTwo, addThree, addFive].reduce(
+          (promise, fn) => promise.then(fn),
+          Promise.resolve(x)
+        );
+      }
+      function compose(...fns) {
+        return (x) =>
+          fns.reduce((promise, fn) => promise.then(fn), Promise.resolve(x));
+      }
+      let addTen = compose(addTwo, addThree, addFive);
+      addTen(8).then(console.log); // 18
+    </script>
+  </body>
+</html>
