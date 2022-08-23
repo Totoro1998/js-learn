@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const userList = [];
+      class User {
+        constructor(name) {
+          this.name_ = name;
+        }
+      }
+      const proxy = new Proxy(User, {
+        construct() {
+          const newUser = Reflect.construct(...arguments);
+          userList.push(newUser);
+          return newUser;
+        },
+      });
+      new proxy("John");
+      new proxy("Jacob");
+      new proxy("Jingleheimerschmidt");
+      console.log(userList); // [User {}, User {}, User{}]
+
+      const userList1 = [];
+      function emit(newValue) {
+        console.log(newValue);
+      }
+      const proxy1 = new Proxy(userList1, {
+        set(target, property, value, receiver) {
+          const result = Reflect.set(...arguments);
+          if (result) {
+            emit(Reflect.get(target, property, receiver));
+          }
+          return result;
+        },
+      });
+      proxy1.push("John");
+      // John
+      proxy1.push("Jacob");
+      // Jacob
+    </script>
+  </body>
+</html>

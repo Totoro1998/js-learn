@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        // 私有变量和私有函数
+        let privateVariable = 10;
+        function privateFunction() {
+          return false;
+        }
+        // 构造函数
+        // 因为不使用关键字声明的变量会创建在全局作用域中，所以 MyObject 变成了全局变量，可以在这个私有作用域外部被访问。
+        MyObject = function () {};
+        // 公有和特权方法
+        MyObject.prototype.publicMethod = function () {
+          privateVariable++;
+          return privateFunction();
+        };
+      })();
+      const obj = new MyObject();
+      console.log(obj.publicMethod());
+    </script>
+  </body>
+</html>

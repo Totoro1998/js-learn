@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * get(target, propKey, receiver)：拦截对象属性的读取，比如proxy.foo和proxy['foo']。
+       * 依次为目标对象、属性名和 proxy 实例本身
+       */
+      let person = {
+        name: "张三",
+      };
+      const handler_0 = {
+        get: function (target, propKey) {
+          if (propKey in target) {
+            return target[propKey];
+          } else {
+            throw new ReferenceError(
+              'Prop name "' + propKey + '" does not exist.'
+            );
+          }
+        },
+      };
+      let proxy = new Proxy(person, handler_0);
+      proxy.name; // "张三"
+      //   proxy.age; // Uncaught ReferenceError: Prop name "age" does not exist.
+
+      /**
+       * get方法可以继承
+       */
+      const handler_1 = {
+        get(target, propertyKey, receiver) {
+          console.log("GET " + propertyKey);
+          return target[propertyKey];
+        },
+      };
+      let proto = new Proxy({}, handler_1);
+      let obj = Object.create(proto);
+      obj.foo; // "GET foo"
+
+      /**
+       * 使用get拦截，实现数组读取负数的索引
+       */
+      function createArray(...elements) {
+        let handler = {
+          get(target, propKey, receiver) {
+            console.log(typeof propKey); //string
+            let index = Number(propKey);
+            if (index < 0) {
+              propKey = String(target.length + index);
+            }
+            return Reflect.get(target, propKey, receiver);
+          },
+        };
+
+        let target = [];
+        target.push(...elements);
+        return new Proxy(target, handler);
+      }
+
+      let arr = createArray("a", "b", "c");
+      arr[-1]; // c
+
+      /**
+       * 可以将读取属性的操作（get），转变为执行某个函数，从而实现属性的链式操作。
+       */
+      const pipe = function (value) {
+        let funcStack = [];
+        const oproxy = new Proxy(
+          {},
+          {
+            get: function (pipeObject, fnName) {
+              if (fnName === "get") {
+                return funcStack.reduce(function (val, fn) {
+                  return fn(val);
+                }, value);
+              }
+              funcStack.push(window[fnName]);
+              return oproxy;
+            },
+          }
+        );
+
+        return oproxy;
+      };
+
+      const double = (n) => n * 2;
+      const pow = (n) => n * n;
+      const reverseInt = (n) => n.toString().split("").reverse().join("") | 0;
+      pipe(3).double.pow.reverseInt.get; // 63
+
+      /**
+       * 利用get拦截，实现一个生成各种 DOM 节点的通用函数dom
+       */
+      const dom = new Proxy(
+        {},
+        {
+          get(target, property) {
+            return function (attrs = {}, ...children) {
+              const el = document.createElement(property);
+              for (let prop of Object.keys(attrs)) {
+                el.setAttribute(prop, attrs[prop]);
+              }
+              for (let child of children) {
+                if (typeof child === "string") {
+                  child = document.createTextNode(child);
+                }
+                el.appendChild(child);
+              }
+              return el;
+            };
+          },
+        }
+      );
+
+      const el = dom.div(
+        {},
+        "Hello, my name is ",
+        dom.a({ href: "//example.com" }, "Mark"),
+        ". I like:",
+        dom.ul(
+          {},
+          dom.li({}, "The web"),
+          dom.li({}, "Food"),
+          dom.li({}, "…actually that's it")
+        )
+      );
+
+      document.body.appendChild(el);
+
+      /**
+       * get方法的第三个参数的例子，它总是指向原始的读操作所在的那个对象，一般情况下就是Proxy 实例
+       */
+      const proxy1 = new Proxy(
+        {},
+        {
+          get: function (target, key, receiver) {
+            return receiver;
+          },
+        }
+      );
+      //d对象本身没有a属性，所以读取d.a的时候，会去d的原型proxy对象找。
+      //这时，receiver就指向d，代表原始的读操作所在的那个对象
+      const d = Object.create(proxy);
+      d.a === d; // true
+    </script>
+  </body>
+</html>

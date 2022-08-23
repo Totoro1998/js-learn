@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let target = {
+        a: 1,
+        b: 2,
+        c: 3,
+      };
+
+      let handler = {
+        ownKeys(target) {
+          return ["a"];
+        },
+      };
+
+      let proxy = new Proxy(target, handler);
+
+      Object.keys(proxy);
+      // [ 'a' ]
+
+      let target1 = {
+        _bar: "foo",
+        _prop: "bar",
+        prop: "baz",
+      };
+
+      let handler1 = {
+        ownKeys(target) {
+          return Reflect.ownKeys(target).filter((key) => key[0] !== "_");
+        },
+      };
+
+      let proxy1 = new Proxy(target1, handler1);
+      for (let key of Object.keys(proxy1)) {
+        console.log(target1[key]);
+      }
+      // "baz"
+
+      /**
+       * 注意，使用Object.keys()方法时，有三类属性会被ownKeys()方法自动过滤，不会返回。
+       * 目标对象上不存在的属性
+       * 属性名为 Symbol 值
+       * 不可遍历（enumerable）的属性
+       */
+      let target2 = {
+        a: 1,
+        b: 2,
+        c: 3,
+        [Symbol.for("secret")]: "4",
+      };
+
+      Object.defineProperty(target2, "key", {
+        enumerable: false,
+        configurable: true,
+        writable: true,
+        value: "static",
+      });
+
+      let handler2 = {
+        ownKeys(target) {
+          return ["a", "d", Symbol.for("secret"), "key"];
+        },
+      };
+
+      let proxy2 = new Proxy(target2, handler2);
+
+      Object.keys(proxy2);
+      // ['a']
+
+      /**
+       * for...in循环
+       */
+      const obj = { hello: "world" };
+      const proxy3 = new Proxy(obj, {
+        ownKeys: function () {
+          return ["a", "b"];
+        },
+      });
+      //ownkeys()指定只返回a和b属性，由于obj没有这两个属性，因此for...in循环不会有任何输出。
+      for (let key in proxy3) {
+        console.log(key); // 没有任何输出
+      }
+
+      /**
+       * ownKeys()方法返回的数组成员，只能是字符串或 Symbol 值。
+       * 如果有其他类型的值，或者返回的根本不是数组，就会报错
+       */
+      let obj1 = {};
+      let p = new Proxy(obj1, {
+        ownKeys: function (target) {
+          return [123, true, undefined, null, {}, []];
+        },
+      });
+
+      Object.getOwnPropertyNames(p);
+      // Uncaught TypeError: 123 is not a valid property name
+
+      /**
+       * 如果目标对象自身包含不可配置的属性，则该属性必须被ownKeys()方法返回，否则报错。
+       */
+      let obj2 = {};
+      Object.defineProperty(obj2, "a", {
+        configurable: false,
+        enumerable: true,
+        value: 10,
+      });
+
+      let p1 = new Proxy(obj2, {
+        ownKeys: function (target) {
+          return ["b"];
+        },
+      });
+
+      Object.getOwnPropertyNames(p1);
+      // Uncaught TypeError: 'ownKeys' on proxy: trap result did not include 'a'
+
+      /**
+       * 如果目标对象是不可扩展的（non-extensible），这时ownKeys()方法返回的数组之中，必须包含原对象的所有属性，且不能包含多余的属性，否则报错。
+       */
+      let obj3 = {
+        a: 1,
+      };
+
+      Object.preventExtensions(obj3);
+
+      let p2 = new Proxy(obj3, {
+        ownKeys: function (target) {
+          return ["a", "b"];
+        },
+      });
+
+      Object.getOwnPropertyNames(p2);
+      // Uncaught TypeError: 'ownKeys' on proxy: trap returned extra keys but proxy target is non-extensible
+    </script>
+  </body>
+</html>

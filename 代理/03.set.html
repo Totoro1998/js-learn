@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 数据验证
+       */
+      let handler = {
+        set: function (obj, prop, value) {
+          if (prop === "age") {
+            if (!Number.isInteger(value)) {
+              throw new TypeError("The age is not an integer");
+            }
+            if (value > 200) {
+              throw new RangeError("The age seems invalid");
+            }
+          }
+
+          // 对于满足条件的 age 属性以及其他属性，直接保存
+          obj[prop] = value;
+          return true;
+        },
+      };
+
+      let person = new Proxy({}, handler);
+
+      person.age = 100;
+
+      person.age; // 100
+      person.age = "young"; // 报错
+      person.age = 300; // 报错
+
+      /**
+       * 有时，我们会在对象上面设置内部属性，属性名的第一个字符使用下划线开头，表示这些属性不应该被外部使用。
+       * 结合get和set方法，就可以做到防止这些内部属性被外部读写
+       */
+      const handler1 = {
+        get(target, key) {
+          invariant(key, "get");
+          return target[key];
+        },
+        set(target, key, value) {
+          invariant(key, "set");
+          target[key] = value;
+          return true;
+        },
+      };
+      function invariant(key, action) {
+        if (key[0] === "_") {
+          throw new Error(
+            `Invalid attempt to ${action} private "${key}" property`
+          );
+        }
+      }
+      const target = {};
+      const proxy = new Proxy(target, handler1);
+      proxy._prop;
+      // Error: Invalid attempt to get private "_prop" property
+      proxy._prop = "c";
+      // Error: Invalid attempt to set private "_prop" property
+    </script>
+  </body>
+</html>

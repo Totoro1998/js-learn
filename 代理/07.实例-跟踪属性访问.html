@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 通过捕获 get、set 和 has 等操作，可以知道对象属性什么时候被访问、被查询。
+       * 把实现相应捕获器的某个对象代理放到应用中，可以监控这个对象何时在何处被访问过。
+       */
+      const user = {
+        name: "Jake",
+      };
+      const proxy = new Proxy(user, {
+        get(target, property, receiver) {
+          console.log(`Getting ${property}`);
+          return Reflect.get(...arguments);
+        },
+        set(target, property, value, receiver) {
+          console.log(`Setting ${property}=${value}`);
+          return Reflect.set(...arguments);
+        },
+      });
+      proxy.name; // Getting name
+      proxy.age = 27; // Setting age=27
+    </script>
+  </body>
+</html>

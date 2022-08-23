@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 在 Proxy 代理的情况下，目标对象内部的this关键字会指向 Proxy 代理。
+       */
+      const target = {
+        m: function () {
+          console.log(this === proxy);
+        },
+      };
+      const handler = {};
+
+      const proxy = new Proxy(target, handler);
+
+      target.m(); // false
+      proxy.m(); // true
+
+      const _name = new WeakMap();
+
+      class Person {
+        constructor(name) {
+          _name.set(this, name);
+        }
+        get name() {
+          return _name.get(this);
+        }
+      }
+
+      const jane = new Person("Jane");
+      jane.name; // 'Jane'
+
+      const proxy1 = new Proxy(jane, {});
+      proxy.name; //由于通过proxy.name访问时，this指向proxy，导致无法取到值，所以返回undefined。
+
+      /**
+       * 此外，有些原生对象的内部属性，只有通过正确的this才能拿到，所以 Proxy 也无法代理这些原生对象的属性。
+       */
+
+      /**
+       * 另外，Proxy 拦截函数内部的this，指向的是handler对象。
+       */
+      const handler2 = {
+        get: function (target, key, receiver) {
+          console.log(this === handler2);
+          return "Hello, " + key;
+        },
+        set: function (target, key, value) {
+          console.log(this === handler2);
+          target[key] = value;
+          return true;
+        },
+      };
+
+      const proxy2 = new Proxy({}, handler2);
+
+      proxy2.foo;
+      // true
+      // Hello, foo
+
+      proxy.foo = 1;
+      // true
+    </script>
+  </body>
+</html>

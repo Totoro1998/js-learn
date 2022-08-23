@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const hiddenProperties = ["foo", "bar"];
+      const targetObject = {
+        foo: 1,
+        bar: 2,
+        baz: 3,
+      };
+      const proxy = new Proxy(targetObject, {
+        get(target, property) {
+          if (hiddenProperties.includes(property)) {
+            return undefined;
+          } else {
+            return Reflect.get(...arguments);
+          }
+        },
+        has(target, property) {
+          if (hiddenProperties.includes(property)) {
+            return false;
+          } else {
+            return Reflect.has(...arguments);
+          }
+        },
+      });
+      // get()
+      console.log(proxy.foo); // undefined
+      console.log(proxy.bar); // undefined
+      console.log(proxy.baz); // 3
+      // has()
+      console.log("foo" in proxy); // false
+      console.log("bar" in proxy); // false
+      console.log("baz" in proxy); // true
+    </script>
+  </body>
+</html>
