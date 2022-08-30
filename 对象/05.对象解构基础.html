@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: "fk",
+        age: 18,
+      };
+
+      let { name: person_name, age: person_age } = person;
+
+      let { name, age } = person;
+
+      let { name: person_name_1, job: person_job_1 } = person;
+
+      //可以在解构赋值的同时定义默认值
+      let { name: person_name_2, job: person_job_2 = "engineer" } = person;
+
+      //   console.log(job); //job is not defined
+      console.log(person_job_1); // undefined
+      console.log(person_job_2); // engineer
+
+      let { length } = "foobar";
+      console.log(length); //6
+
+      let { constructor: c } = 4;
+      console.log(c); //f Number()
+
+      //   let { _null } = null; //Cannot destructure property
+
+      //   let { _undefined } = undefined; //Cannot destructure property
+
+      let person_name_3, person_age_3;
+
+      //解构并不要求变量必须在解构表达式中声明。不过，如果是给事先声明的变量赋值，则赋值表达式必须包含在一对括号中
+      ({ name: person_name_3, age: person_age_3 } = person);
+    </script>
+  </body>
+</html>

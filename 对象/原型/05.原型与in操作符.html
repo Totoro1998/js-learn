@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function () {
+        console.log(this.name);
+      };
+      let person1 = new Person();
+      let person2 = new Person();
+      person1.name = "Matt";
+      console.log("name" in person1); // true
+
+      //确定某个属性是否存在于原型上
+      function hasPrototypeProperty(object, name) {
+        return name in object && !object.hasOwnProperty(name);
+      }
+      console.log(hasPrototypeProperty(person1, "name")); //false
+    </script>
+  </body>
+</html>

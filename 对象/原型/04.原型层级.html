@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function () {
+        console.log(this.name);
+      };
+      let person1 = new Person();
+      let person2 = new Person();
+      person1.name = "Greg";
+      console.log(person1.hasOwnProperty("name")); // true
+      //constructor 属性只存在于原型对象，因此通过实例对象也是可以访问到的
+      console.log(person1.constructor === person1.__proto__.constructor); //true
+      console.log(person1.name); // "Greg"，来自实例
+      console.log(person2.name); // "Nicholas"，来自原型
+
+      person1.name = null;
+      console.log(person1.name); // null
+      delete person1.name;
+      console.log(person1.name); //Nicholas
+      console.log(person1.hasOwnProperty("name")); // false
+    </script>
+  </body>
+</html>

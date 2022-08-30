@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: "fk",
+        age: 13,
+        say_name() {
+          console.log(this.name);
+        },
+      };
+      const person_proto = Object.getPrototypeOf(person);
+      person_proto.job = "Software Engineer";
+      person_proto.say_age = function () {
+        console.log(this.age);
+      };
+      const person_clone_by_assign_1 = Object.assign({}, person);
+
+      // 写法二
+      const person_clone_by_assign_2 = Object.assign(
+        Object.create(Object.getPrototypeOf(person)),
+        person
+      );
+
+      // 写法三
+      const person_clone_by_create = Object.create(
+        Object.getPrototypeOf(person),
+        Object.getOwnPropertyDescriptors(person)
+      );
+      console.log(person_clone_by_assign_1);
+      console.log(person_clone_by_assign_2);
+      console.log(person_clone_by_create);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //扩展运算符的对象的解构赋值用于从一个对象取值，相当于将目标对象自身的所有可遍历的（enumerable）、但尚未被读取的属性，分配到指定的对象上面。
+      //扩展运算符的解构赋值如果不是最后一个参数，会报错。
+      let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+      console.log(z); // { a: 3, b: 4 }
+
+      //解构赋值的拷贝是浅拷贝
+      let obj = { a: { b: 1 } };
+      let { ...obj1 } = obj;
+      obj.a.b = 2;
+      console.log(x.a.b); // 2
+
+      //扩展运算符的解构赋值，不能复制继承自原型对象的属性
+      let o1 = { a: 1 };
+      let o2 = { b: 2 };
+      o2.__proto__ = o1;
+      let { ...o3 } = o2;
+      console.log(o3); // { b: 2 }
+      console.log(o3.a); // undefined
+
+      /**
+       * 变量x是单纯的解构赋值，所以可以读取对象o继承的属性；
+       * 变量y和z是扩展运算符的解构赋值，只能读取对象o自身的属性，所以变量z可以赋值成功，变量y取不到值。
+       * ES6 规定，变量声明语句之中，如果使用解构赋值，扩展运算符后面必须是一个变量名，而不能是一个解构赋值表达式
+       */
+      const o = Object.create({ val_a: 1, val_y: 2 });
+      o.val_z = 3;
+      // let { x, ...{ y, z } } = o; // SyntaxError: ... must be followed by an identifier in declaration contexts
+      let { val_a, ...newObj } = o;
+      let { val_y, val_z } = newObj;
+      console.log(val_a); // 1
+      console.log(val_y); // undefined
+      console.log(val_z); // 3
+
+      //扩展某个函数的参数，引入其他操作。
+      function baseFunction({ a, b }) {
+        // ...
+      }
+      function wrapperFunction({ x, y, ...restConfig }) {
+        // 使用 x 和 y 参数进行操作
+        // 其余参数传给原始函数
+        return baseFunction(restConfig);
+      }
+    </script>
+  </body>
+</html>

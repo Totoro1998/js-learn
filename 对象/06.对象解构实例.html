@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: "fk",
+        age: 18,
+        job: {
+          title: "Software Engineer",
+        },
+      };
+      let person_copy = {};
+      ({
+        name: person_copy.name,
+        age: person_copy.age,
+        job: person_copy.job,
+      } = person);
+      console.log(person_copy);
+
+      let {
+        job: { title },
+      } = person;
+
+      console.log(title); //Software Engineer
+      //   console.log(job); //job is not defined
+
+      //在外层属性没有定义的情况下不能使用嵌套解构，无论元对象还是目标对象都一样
+      ({
+        foo: { bar: person_copy.bar },
+      } = person); // foo 在源对象上是 undefined
+
+      ({
+        job: { title: person_copy.job.title },
+      } = person); //job 在目标对象上是 undefined
+    </script>
+  </body>
+</html>

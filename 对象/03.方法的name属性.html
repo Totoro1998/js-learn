@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const key1 = Symbol("description");
+      const key2 = Symbol();
+      const person = {
+        sayName() {
+          console.log("hello!");
+        },
+        get foo() {},
+        set foo(x) {},
+        [key1]() {},
+        [key2]() {},
+      };
+
+      person.sayName.name; // "sayName"
+
+      const foo_descriptor = Object.getOwnPropertyDescriptor(person, "foo");
+      console.log(foo_descriptor);
+      console.log(foo_descriptor.get.name); // get foo
+      console.log(foo_descriptor.set.name); // set foo
+
+      // 如果对象的方法是一个 Symbol 值，那么name属性返回的是这个 Symbol 值的描述。
+      person[key1].name; // "[description]"
+      person[key2].name; // ""
+
+      // Function构造函数创造的函数，name属性返回anonymous
+      new Function().name; // "anonymous"
+
+      // bind方法创造的函数，name属性返回bound加上原函数的名字
+      const doSomething = function () {};
+      doSomething.bind().name; // "bound doSomething"
+    </script>
+  </body>
+</html>

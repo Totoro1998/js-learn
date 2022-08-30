@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //在函数参数列表中也可以进行解构赋值。对参数的解构赋值不会影响 arguments 对象，
+      let person = {
+        name: "Matt",
+        age: 27,
+      };
+      function printPerson(foo, { name, age }, bar) {
+        console.log(arguments);
+        console.log(name, age);
+      }
+      function printPerson2(foo, { name: personName, age: personAge }, bar) {
+        console.log(arguments);
+        console.log(personName, personAge);
+      }
+      printPerson("1st", person, "2nd");
+      // ['1st', { name: 'Matt', age: 27 }, '2nd']
+      // 'Matt', 27
+      printPerson2("1st", person, "2nd");
+      // ['1st', { name: 'Matt', age: 27 }, '2nd']
+    </script>
+  </body>
+</html>

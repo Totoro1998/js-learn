@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person() {}
+      Person.prototype = {
+        name: "Nicholas",
+        age: 29,
+        job: "Software Engineer",
+        sayName() {
+          console.log(this.name);
+        },
+      };
+      console.log(Person.prototype);
+      console.log(Person.prototype.constructor); //ƒ Object() { [native code] }
+      /**
+       * 
+        age: 29
+        job: "Software Engineer"
+        name: "Nicholas"
+        sayName: ƒ sayName()
+        [[Prototype]]: Object
+       */
+
+      // 恢复 constructor 属性
+      Object.defineProperty(Person.prototype, "constructor", {
+        enumerable: false,
+        value: Person,
+      });
+
+      let friend = new Person();
+      //原型的动态性
+      Person.prototype.sayHi = function () {
+        console.log("hi");
+      };
+      friend.sayHi(); // "hi"
+
+      /**
+       *
+        虽然随时能给原型添加属性和方法，并能够立即反映在所有对象实例上，但这跟重写整个原型是两
+        回事。实例的[[Prototype]]指针是在调用构造函数时自动赋值的，这个指针即使把原型修改为不同
+        的对象也不会变。重写整个原型会切断最初原型与构造函数的联系，但实例引用的仍然是最初的原型。
+        记住，实例只有指向原型的指针，没有指向构造函数的指针。
+       * 
+       */
+      let person1 = new Person();
+      Person.prototype = {
+        constructor: Person,
+        name: "Nicholas",
+        age: 29,
+        job: "Software Engineer",
+        sayName() {
+          console.log(this.name);
+        },
+        sayAge() {
+          console.log(this.age);
+        },
+      };
+      person1.sayAge(); // 错误
+    </script>
+  </body>
+</html>

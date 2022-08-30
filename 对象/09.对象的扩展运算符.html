@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //对象的扩展运算符（...）用于取出参数对象的所有可遍历属性（自身属性非继承），拷贝到当前对象之中。
+      let z = { a: 3, b: 4 };
+      let n = { ...z };
+      n; // { a: 3, b: 4 }
+
+      let foo = { ...["a", "b", "c"] };
+      foo;
+      // {0: "a", 1: "b", 2: "c"}
+
+      //如果扩展运算符后面不是对象（除字符串外），则会自动将其转为对象
+      let num_1 = { ...1 }; // {} 等同于{...Object(1)}
+
+      let string_1 = { ..."hello" };
+      // {0: "h", 1: "e", 2: "l", 3: "l", 4: "o"}
+
+      //对象的扩展运算符，只会返回参数对象自身的、可枚举的属性，这一点要特别小心，尤其是用于类的实例对象时。
+
+      class C {
+        p = 12;
+        m() {} //定义在原型对象上
+      }
+
+      let c = new C();
+      let clone = { ...c };
+
+      clone.p; // ok
+      clone.m(); // 报错
+
+      let a = {};
+      let a_clone = { ...a };
+      // 等同于
+      let a_clone_by_assign = Object.assign({}, a);
+    </script>
+  </body>
+</html>

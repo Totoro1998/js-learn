@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const key1 = Symbol("description");
+      const key2 = Symbol();
+      const person = {
+        name: "fk",
+        sayName() {
+          console.log("hello!");
+        },
+        get foo() {},
+        set foo(x) {},
+        [key1]() {},
+        [key2]() {},
+      };
+
+      Object.defineProperty(person, "age", {
+        // writable: false,
+        // enumerable: false,
+        // configurable: false,
+        value: 18,
+      });
+      console.log(person.__proto__.constructor === Object); //true
+      //enumerable: false
+      console.log(
+        Object.getOwnPropertyDescriptor(Object.prototype, "hasOwnProperty")
+      );
+      //enumerable: false
+      console.log(
+        Object.getOwnPropertyDescriptor(Object.prototype, "constructor")
+      );
+      //enumerable: false
+      console.log(
+        Object.getOwnPropertyDescriptor(Object.prototype, "isPrototypeOf")
+      );
+      //enumerable: false
+      console.log(
+        Object.getOwnPropertyDescriptor(Object.prototype, "toLocaleString")
+      );
+      //enumerable: false
+      console.log(Object.getOwnPropertyDescriptor(Object.prototype, "valueOf")); //enumerable: false
+
+      //对象自身的和继承的可枚举属性（包括原型）
+      for (item in person) {
+        console.log(item); //name、sayName、foo
+      }
+      //返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。（不包括原型）
+      console.log(Object.keys(person)); // name、sayName、foo
+
+      //返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。（不包括原型）
+      console.log(Object.getOwnPropertyNames(person)); // name、sayName、foo、age
+
+      //Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有 Symbol 属性的键名。（不包括原型）
+      console.log(Object.getOwnPropertySymbols(person)); //Symbol(description)、Symbol()
+
+      //Reflect.ownKeys返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。（不包括原型）
+      console.log(Reflect.ownKeys(person)); // name、sayName、foo、age、Symbol(description)、Symbol()
+
+      function Person() {}
+      Person.prototype.name = "fk";
+      Person.prototype.age = 18;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function () {
+        console.log(this.name);
+      };
+
+      console.log("-----------person1-----------");
+      const person1 = new Person();
+      person1.description = "a nice boy";
+
+      for (item in person1) {
+        console.log(item); //description、name、age、job、sayName
+      }
+      console.log(Object.keys(person1)); // ['description']
+      console.log(Object.getOwnPropertyNames(person1)); // ['description']
+      console.log(Object.getOwnPropertySymbols(person1)); //[]
+      console.log(Reflect.ownKeys(person1)); // ['description']
+
+      console.log(Object.values(person1)); //['a nice boy']
+      console.log(Object.entries(person1)); //['description', 'a nice boy']
+    </script>
+  </body>
+</html>

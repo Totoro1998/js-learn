@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: "Nicholas",
+        age: 29,
+        job: "Software Engineer",
+        sayName() {
+          console.log(this.name);
+        },
+      };
+      console.log(person);
+      /**
+       * 
+        age: 29
+        job: "Software Engineer"
+        name: "Nicholas"
+        sayName: ƒ sayName()
+        [[Prototype]]: Object
+            constructor: ƒ Object()
+            hasOwnProperty: ƒ hasOwnProperty()
+            isPrototypeOf: ƒ isPrototypeOf()
+            propertyIsEnumerable: ƒ propertyIsEnumerable()
+            toLocaleString: ƒ toLocaleString()
+            toString: ƒ toString()
+            valueOf: ƒ valueOf()
+            __defineGetter__: ƒ __defineGetter__()
+            __defineSetter__: ƒ __defineSetter__()
+            __lookupGetter__: ƒ __lookupGetter__()
+            __lookupSetter__: ƒ __lookupSetter__()
+            __proto__: （…）
+            get __proto__: ƒ __proto__()
+            set __proto__: ƒ __proto__()
+       */
+
+      console.log(Object); //ƒ Object() { [native code] }
+      console.log(Object.prototype);
+      /**
+       * 
+            constructor: ƒ Object()
+            hasOwnProperty: ƒ hasOwnProperty()
+            isPrototypeOf: ƒ isPrototypeOf()
+            propertyIsEnumerable: ƒ propertyIsEnumerable()
+            toLocaleString: ƒ toLocaleString()
+            toString: ƒ toString()
+            valueOf: ƒ valueOf()
+            __defineGetter__: ƒ __defineGetter__()
+            __defineSetter__: ƒ __defineSetter__()
+            __lookupGetter__: ƒ __lookupGetter__()
+            __lookupSetter__: ƒ __lookupSetter__()
+            __proto__: （…）
+            get __proto__: ƒ __proto__()
+            set __proto__: ƒ __proto__()
+       */
+    </script>
+  </body>
+</html>

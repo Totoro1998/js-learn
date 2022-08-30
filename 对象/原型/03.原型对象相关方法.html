@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person() {}
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function () {
+        console.log(this.name);
+      };
+      let person = new Person();
+      //isPrototypeOf()会在传入参数的[[Prototype]]指向调用它的对象时返回true
+      console.log(Person.prototype.isPrototypeOf(person)); //true
+
+      //返回参数的内部特性[[Prototype]]的值
+      console.log(Object.getPrototypeOf(person) === Person.prototype); //true
+
+      let biped = {
+        numLegs: 2,
+      };
+      let ren1 = {
+        name: "Matt",
+      };
+      Object.setPrototypeOf(ren, biped);
+      console.log(ren1.name); // Matt
+      console.log(ren1.numLegs); // 2
+      console.log(Object.getPrototypeOf(ren1) === biped); // true
+
+      let ren2 = Object.create(biped);
+      ren2.name = "Matt";
+      console.log(ren2.name); // Matt
+      console.log(ren2.numLegs); // 2
+      console.log(Object.getPrototypeOf(ren2) === biped); // true
+    </script>
+  </body>
+</html>
