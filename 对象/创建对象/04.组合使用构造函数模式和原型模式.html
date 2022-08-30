@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person(name, age, job) {
+        this.name = name;
+        this.age = age;
+        this.job = job;
+        this.friends = ["x", "y"];
+      }
+      Person.prototype = {
+        common_friends: ["fk"],
+        sayName: function () {
+          console.log(this.name);
+        },
+      };
+      Object.defineProperty(Person.prototype, "constructor", {
+        enumerable: false,
+        value: Person,
+      });
+
+      const person1 = new Person("a", 16, "gamer");
+      const person2 = new Person("b", 18, "teacher");
+      console.log(person1.common_friends === person2.common_friends); //true
+      console.log(person1.friends === person2.friends); //false
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function SpecialArray() {
+        const arr = new Array();
+        // arr.push.apply(arr, arguments);
+        arr.push(...arguments);
+        arr.toPipedString = function () {
+          return this.join("|");
+        };
+        return arr;
+      }
+      const colors = new SpecialArray("red", "blue", "green");
+      console.log(colors.toPipedString());
+    </script>
+  </body>
+</html>
