@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //如果只有一个参数，Object.assign()会直接返回该参数
+      const obj = { a: 1 };
+      Object.assign(obj) === obj; // true
+
+      const v1 = "abc";
+      const v2 = true;
+      const v3 = 10;
+
+      const obj1 = Object.assign({}, v1, v2, v3);
+      console.log(obj1); // { "0": "a", "1": "b", "2": "c" }
+
+      Object(true); // {[[PrimitiveValue]]: true}
+      Object(10); //  {[[PrimitiveValue]]: 10}
+      Object("abc"); // {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}
+    </script>
+  </body>
+</html>

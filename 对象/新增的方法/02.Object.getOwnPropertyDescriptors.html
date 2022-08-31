@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function getOwnPropertyDescriptors(obj) {
+        const result = {};
+        for (let key of Reflect.ownKeys(obj)) {
+          result[key] = Object.getOwnPropertyDescriptor(obj, key);
+        }
+        return result;
+      }
+      //该方法的引入目的，主要是为了解决Object.assign()无法正确拷贝get属性和set属性的问题。
+      const shallowMerge = (target, source) =>
+        Object.defineProperties(
+          target,
+          Object.getOwnPropertyDescriptors(source)
+        );
+
+      //Object.getOwnPropertyDescriptors()方法的另一个用处，是配合Object.create()方法，将对象属性克隆到一个新对象。这属于浅拷贝。
+      const shallowClone = (obj) =>
+        Object.create(
+          Object.getPrototypeOf(obj),
+          Object.getOwnPropertyDescriptors(obj)
+        );
+    </script>
+  </body>
+</html>

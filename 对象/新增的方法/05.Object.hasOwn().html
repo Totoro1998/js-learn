@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //对象实例有一个hasOwnProperty()方法，可以判断某个属性是否为原生属性。
+      //ES2022 在Object对象上面新增了一个静态方法Object.hasOwn()，也可以判断是否为自身的属性。
+      const foo = Object.create({ a: 123 });
+      foo.b = 456;
+
+      Object.hasOwn(foo, "a"); // false 对象foo的属性a是继承属性
+      Object.hasOwn(foo, "b"); // true
+
+      //Object.hasOwn()的一个好处是，对于不继承Object.prototype的对象不会报错，而hasOwnProperty()是会报错的
+    </script>
+  </body>
+</html>
