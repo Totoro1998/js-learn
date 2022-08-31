@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //如果想完整克隆一个对象，还拷贝对象原型的属性
+      function Person(desc) {
+        this.desc = desc;
+      }
+      Person.prototype.name = "Nicholas";
+      Person.prototype.age = 29;
+      Person.prototype.job = "Software Engineer";
+      Person.prototype.sayName = function () {
+        console.log(this.name);
+      };
+      const person = new Person("desc");
+      const person_clone_by_assign_1 = Object.assign({}, person);
+      const person_clone_by_assign_2 = Object.assign(
+        Object.create(Object.getPrototypeOf(person)),
+        person
+      );
+      const person_clone_by_create = Object.create(
+        Object.getPrototypeOf(person),
+        Object.getOwnPropertyDescriptors(person)
+      );
+      console.log(person_clone_by_assign_1);
+      console.log(person_clone_by_assign_2);
+      console.log(person_clone_by_create);
+    </script>
+  </body>
+</html>

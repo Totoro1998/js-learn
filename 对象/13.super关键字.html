@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //super关键字指向当前对象的原型对象
+      const proto = {
+        foo: "hello",
+      };
+
+      const obj = {
+        foo: "world",
+        find() {
+          //super关键字表示原型对象时，只能用在对象的方法之中，用在其他地方都会报错
+          return super.foo;
+        },
+        // //报错
+        // foo: super.foo,
+        // //报错
+        // foo: () => super.foo,
+
+        // //Uncaught SyntaxError: 'super' keyword unexpected here
+        // foo: function () {
+        //   return super.foo;
+        // },
+      };
+
+      /**
+       * 上面三种super的用法都会报错，因为对于 JavaScript 引擎来说，这里的super都没有用在对象的方法之中。
+       * 第一种写法是super用在属性里面，第二种和第三种写法是super用在一个函数里面，然后赋值给foo属性。
+       * 目前，只有对象方法的简写法可以让 JavaScript 引擎确认，定义的是对象的方法。
+       */
+      Object.setPrototypeOf(obj, proto);
+      obj.find(); // "hello"
+    </script>
+  </body>
+</html>

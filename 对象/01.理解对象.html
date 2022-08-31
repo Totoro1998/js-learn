@@ -12,8 +12,12 @@
         name: "Nicholas",
         age: 29,
         job: "Software Engineer",
+        //目前，只有对象方法的简写法可以让 JavaScript 引擎确认，定义的是对象的方法。
         sayName() {
           console.log(this.name);
+        },
+        sayAge: function () {
+          console.log(this.age);
         },
       };
       console.log(person);
@@ -22,6 +26,7 @@
         age: 29
         job: "Software Engineer"
         name: "Nicholas"
+        sayAge: ƒ ()
         sayName: ƒ sayName()
         [[Prototype]]: Object
             constructor: ƒ Object()
