@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function object(o) {
+        function F() {}
+        F.prototype = o;
+        Object.defineProperty(F.prototype, "constructor", {
+          enumerable: false,
+          value: o,
+        });
+        return new F();
+      }
+      let person = {
+        name: "Nicholas",
+        friends: ["Shelby", "Court", "Van"],
+      };
+      let anotherPerson = object(person);
+      anotherPerson.name = "Greg";
+      anotherPerson.friends.push("Rob");
+      console.log(anotherPerson.friends); //['Shelby', 'Court', 'Van', 'Rob']
+      console.log(anotherPerson);
+      /**
+        F {name: 'Greg'}
+        name: "Greg"
+            [[Prototype]]: Object
+                friends: (5) ['Shelby', 'Court', 'Van', 'Rob', 'Barbie']
+                name: "Nicholas"
+                constructor: {name: 'Nicholas', friends: Array(5), constructor: {…}}
+                [[Prototype]]: Object
+        */
+
+      let yetAnotherPerson = object(person);
+      yetAnotherPerson.friends.push("Barbie");
+      console.log(yetAnotherPerson.friends); //['Shelby', 'Court', 'Van', 'Rob', 'Barbie']
+      console.log(yetAnotherPerson);
+      /**
+        F {}
+            [[Prototype]]: Object
+                friends: (5) ['Shelby', 'Court', 'Van', 'Rob', 'Barbie']
+                name: "Nicholas"
+                constructor: {name: 'Nicholas', friends: Array(5), constructor: {…}}
+                [[Prototype]]: Object
+       */
+
+      console.log(person.name); //Nicholas
+      console.log(person.friends); // ['Shelby', 'Court', 'Van', 'Rob', 'Barbie']
+
+      //create并没有规范constructor
+      let animal = {
+        name: "cat",
+        color: ["white", "black"],
+      };
+      let anotherAnimal = Object.create(animal);
+      console.log(anotherAnimal);
+      console.log(anotherAnimal.constructor); //ƒ Object() { [native code] }
+      /**
+       * Object
+        [[Prototype]]: Object
+            color: (2) ['white', 'black']
+            name: "cat"
+            [[Prototype]]: Object
+       */
+      anotherAnimal.color.push("yellow");
+      console.log(animal.color); //['white', 'black', 'yellow']
+
+      let yetAnotherAnimal = Object.create(animal, {
+        name: {
+          value: "dog",
+        },
+        color: { value: [] },
+      });
+      console.log(yetAnotherAnimal);
+      /**
+       * 
+        {name: 'dog', color: Array(0)}
+            color: []
+            name: "dog"
+            [[Prototype]]: Object
+                color: (3) ['white', 'black', 'yellow']
+                name: "cat"
+                [[Prototype]]: Object
+       */
+    </script>
+  </body>
+</html>

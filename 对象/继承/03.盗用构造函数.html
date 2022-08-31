@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function SuperType(name) {
+        this.name = name;
+        this.colors = ["red", "blue", "green"];
+      }
+      function SubType(name) {
+        SuperType.call(this, name);
+      }
+      let instance1 = new SubType("fk");
+      instance1.colors.push("black");
+      console.log(instance1.colors); // "red,blue,green,black"
+      console.log(instance1.name); // "fk"
+      let instance2 = new SubType("zsr");
+      console.log(instance2.colors); // "red,blue,green"
+      console.log(instance2.name); // "zsr"
+    </script>
+  </body>
+</html>

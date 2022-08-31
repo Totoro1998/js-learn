@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function SuperType() {
+        this.super_property = true;
+        this.type = "super";
+      }
+      SuperType.prototype.getSuperType = function () {
+        console.log(this);
+        /**
+        subType {sub_property: false, type: 'sub'}
+            sub_property: false
+            type: "sub"
+            [[Prototype]]: SuperType
+        */
+        return this.type;
+      };
+      SuperType.prototype.getSuperProperty = function () {
+        return this.super_property;
+      };
+
+      function SubType() {
+        this.sub_property = false;
+        this.type = "sub";
+      }
+
+      //这意味着 SuperType 实例可以访问的所有属性和方法也会存在于 SubType.prototype。
+      const super_instance = new SuperType();
+      SubType.prototype = new SuperType();
+      SubType.prototype.getSubType = function () {
+        return this.type;
+      };
+      SubType.prototype.getSubProperty = function () {
+        return this.sub_property;
+      };
+
+      const sub_instance = new SubType();
+      console.log(super_instance);
+      console.log(SubType.prototype);
+      /**
+       * 
+        getSubProperty: ƒ ()
+        getSubType: ƒ ()
+        super_property: true
+        type: "super"
+        [[Prototype]]: Object
+            getSuperProperty: ƒ ()
+            getSuperType: ƒ ()
+            constructor: ƒ SuperType()
+            [[Prototype]]: Object
+       */
+      console.log(sub_instance);
+      console.log(sub_instance.__proto__);
+
+      console.log(sub_instance.constructor === SuperType); //true
+      console.log(sub_instance.getSuperType()); //sub
+      console.log(sub_instance.getSubType()); //sub
+      console.log(sub_instance.getSuperProperty()); //true
+      console.log(sub_instance.getSubProperty()); //false
+
+      console.log(instance instanceof Object); // true
+      console.log(instance instanceof SuperType); // true
+      console.log(instance instanceof SubType); // true
+      console.log(Object.prototype.isPrototypeOf(instance)); // true
+      console.log(SuperType.prototype.isPrototypeOf(instance)); // true
+      console.log(SubType.prototype.isPrototypeOf(instance)); // true
+    </script>
+  </body>
+</html>

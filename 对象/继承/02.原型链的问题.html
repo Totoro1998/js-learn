@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //每个 SuperType 的实例都会有自己的 colors 属性，包含自己的数组。
+      //但是，当 SubType 通过原型继承SuperType 后，SubType.prototype 变成了 SuperType 的一个实例，因而也获得了自己的 colors属性。
+      //这类似于创建了 SubType.prototype.colors 属性
+      function SuperType() {
+        this.super_property = true;
+        this.type = "super";
+        this.colors = ["red", "blue", "green"];
+      }
+      SuperType.prototype.getSuperType = function () {
+        return this.type;
+      };
+      SuperType.prototype.getSuperProperty = function () {
+        return this.super_property;
+      };
+
+      function SubType() {
+        this.sub_property = false;
+        this.type = "sub";
+      }
+
+      const super_instance = new SuperType();
+      SubType.prototype = new SuperType();
+      SubType.prototype.getSubType = function () {
+        return this.type;
+      };
+      SubType.prototype.getSubProperty = function () {
+        return this.sub_property;
+      };
+
+      let instance1 = new SubType();
+      instance1.colors.push("black");
+      console.log(instance1.colors); // "red,blue,green,black"
+      let instance2 = new SubType();
+      console.log(instance2.colors); // "red,blue,green,black"
+    </script>
+  </body>
+</html>
