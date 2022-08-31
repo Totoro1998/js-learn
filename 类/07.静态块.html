@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //许在类的内部设置一个代码块，在类生成时运行一次，主要作用是对静态属性进行初始化。
+      let getX;
+      class C {
+        static x = 1;
+        static y;
+        static z;
+
+        static {
+          try {
+            const obj = doSomethingWith(this.x);
+            this.y = obj.y;
+            this.z = obj.z;
+            getX = (obj) => obj.#x;
+          } catch {
+            this.y = 2;
+            this.z = 3;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

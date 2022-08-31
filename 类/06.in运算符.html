@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class C {
+        #brand;
+
+        //注意，判断私有属性时，in只能用在类的内部。
+        static isC(obj) {
+          if (#brand in obj) {
+            // 私有属性 #brand 存在
+            return true;
+          } else {
+            // 私有属性 #foo 不存在
+            return false;
+          }
+        }
+      }
+
+      class A {
+        #foo = 0;
+        static test(obj) {
+          console.log(#foo in obj);
+        }
+      }
+      //SubA从父类继承了私有属性#foo，in运算符也有效
+      class SubA extends A {}
+      A.test(new SubA()); // true
+
+      const a = new A();
+
+      //in运算符对于Object.create()、Object.setPrototypeOf形成的继承，是无效的，因为这种继承不会传递私有属性。
+      //对于修改原型链形成的继承，子类都取不到父类的私有属性。
+      const o1 = Object.create(a);
+      A.test(o1); // false
+      A.test(o1.__proto__); // true
+
+      const o2 = {};
+      Object.setPrototypeOf(o2, a);
+      A.test(o2); // false
+      A.test(o2.__proto__); // true
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //类表达式的名称是可选的。在把类表达式赋值给变量后，可以通过 name 属性取得类表达式的名称字符串。
+      //但不能在类表达式作用域外部访问这个标识符
+      let Person = class PersonName {
+        identify() {
+          console.log(Person.name, PersonName.name);
+        }
+      };
+      let p = new Person();
+      p.identify(); // PersonName PersonName
+      console.log(Person.name); // PersonName
+      console.log(PersonName); // ReferenceError: PersonName is not defined
+    </script>
+  </body>
+</html>

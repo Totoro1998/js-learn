@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Person {}
+      console.log(Person); // class Person {}
+      console.log(typeof Person); // function
+      console.log(Person.prototype);
+      console.log(Person.prototype.constructor === Person); //true
+
+      //可以使用 instanceof 操作符检查构造函数原型是否存在于实例的原型链中
+      let p = new Person();
+      console.log(p instanceof Person); // true
+
+      let p1 = new Person();
+      console.log(p1.constructor === Person); // true
+      console.log(p1 instanceof Person); // true
+      console.log(p1 instanceof Person.constructor); // false
+      let p2 = new Person.constructor();
+      console.log(p2.constructor === Person); // false
+      console.log(p2 instanceof Person); // false
+      console.log(p2 instanceof Person.constructor); // true
+    </script>
+  </body>
+</html>
