@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //子类的__proto__属性，表示构造函数的继承，总是指向父类。
+      //子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
+      class A {}
+
+      class B extends A {}
+
+      console.log(B.__proto__ === A); // true
+      console.log(B.prototype === A); //false
+      console.log(B.prototype.__proto__ === A.prototype); // true
+
+      console.log(B.__proto__); //class A {}
+      console.log(B.prototype);
+      /**
+       *    
+       * A {constructor: ƒ}
+            constructor: class B
+            [[Prototype]]: Object
+                constructor: class A
+                [[Prototype]]: Object
+       */
+      console.log(B.prototype.__proto__);
+    </script>
+  </body>
+</html>

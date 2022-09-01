@@ -18,8 +18,8 @@
       }
 
       //寄生式组合继承通过盗用构造函数继承属性，但使用混合式原型链继承方法。
-      //基本思路是不通过调 用父类构造函数给子类原型赋值，而是取得父类原型的一个副本。
-      //说到底就是使用寄生式继承来继承父 类原型，然后将返回的新对象赋值给子类原型。
+      //基本思路是不通过调用父类构造函数给子类原型赋值，而是取得父类原型的一个副本。
+      //说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。
       function inheritPrototype(subType, superType) {
         let prototype = object(superType.prototype); // 创建对象
         prototype.constructor = subType; // 增强对象

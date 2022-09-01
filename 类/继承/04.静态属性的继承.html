@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class A {
+        static foo = { n: 100 };
+      }
+
+      class B extends A {
+        constructor() {
+          super();
+          B.foo.n--;
+        }
+      }
+
+      const b = new B();
+      B.foo.n; // 99
+      A.foo.n; // 99
+    </script>
+  </body>
+</html>

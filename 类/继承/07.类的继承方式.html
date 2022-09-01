@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      Object.setPrototypeOf = function (obj, proto) {
+        //__proto__存在于实例对象上
+        obj.__proto__ = proto;
+        return obj;
+      };
+      class A {}
+
+      class B {}
+      // B 的实例继承 A 的实例
+      Object.setPrototypeOf(B.prototype, A.prototype);
+
+      // B 继承 A 的静态属性
+      Object.setPrototypeOf(B, A);
+
+      const b = new B();
+
+      //这两条继承链，可以这样理解：作为一个对象，子类（B）的原型（__proto__属性）是父类（A）；
+      //作为一个构造函数，子类（B）的原型对象（prototype属性）是父类的原型对象（prototype属性）的实例
+
+      //这种情况下，A作为一个基类（即不存在任何继承），就是一个普通函数，所以直接继承Function.prototype。但是，A调用后返回一个空对象（即Object实例），所以A.prototype.__proto__指向构造函数（Object）的prototype属性
+      class C {}
+      C.__proto__ === Function.prototype; // true
+      C.prototype.__proto__ === Object.prototype; // true
+    </script>
+  </body>
+</html>

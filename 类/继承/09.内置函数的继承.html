@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class VersionedArray extends Array {
+        constructor() {
+          super();
+          this.history = [[]];
+        }
+        commit() {
+          this.history.push(this.slice());
+        }
+        revert() {
+          this.splice(0, this.length, ...this.history[this.history.length - 1]);
+        }
+      }
+
+      var x = new VersionedArray();
+
+      x.push(1);
+      x.push(2);
+      x; // [1, 2]
+      x.history; // [[]]
+
+      x.commit();
+      x.history; // [[], [1, 2]]
+
+      x.push(3);
+      x; // [1, 2, 3]
+      x.history; // [[], [1, 2]]
+
+      x.revert();
+      x; // [1, 2]
+
+      class NewObj extends Object {
+        constructor() {
+          super(...arguments);
+        }
+      }
+      var o = new NewObj({ attr: true });
+      o.attr === true; // false
+    </script>
+  </body>
+</html>

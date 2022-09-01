@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Vehicle {
+        constructor(type, year) {
+          this.type = type;
+          this.year = year;
+        }
+        static identify() {
+          console.log("vehicle");
+        }
+        sayVehicleType() {
+          console.log(this.type);
+        }
+      }
+      class Bus extends Vehicle {
+        #category = "bus";
+        constructor(type, year) {
+          //调用 super()会调用父类构造函数，并将返回的实例赋值给this。
+          super(type, year);
+        }
+        static identify() {
+          super.identify();
+        }
+        sayBus() {
+          //super关键字表示原型对象时，只能用在对象的方法之中，用在其他地方都会报错
+          super.sayVehicleType(); //car
+          this.sayVehicleType(); //car
+        }
+      }
+      Bus.identify(); // vehicle
+      const bus = new Bus("car", 2000);
+      console.log(bus);
+      Bus.identify();
+      bus.sayBus();
+    </script>
+  </body>
+</html>

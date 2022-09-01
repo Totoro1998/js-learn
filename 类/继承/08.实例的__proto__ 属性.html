@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //子类实例的__proto__属性的__proto__属性，指向父类实例的__proto__属性。也就是说，子类的原型的原型，是父类的原型。
+      class A {}
+      class B extends A {}
+      var a = new A();
+      var b = new B();
+
+      b.__proto__ === a.__proto__; // false
+      b.__proto__.__proto__ === a.__proto__; // true
+    </script>
+  </body>
+</html>
