@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //新期约实例基于then方法的onResovled处理程序的返回值构建，该返回值会被Promise.resolve()包装来生成新的期约。
+      //如果没有提供onResovled这个处理程序，则Promise.resolve()就会包装上一个期约解决之后的值。
+      //如果没有显式的返回语句，则Promise.resolve()会包装默认的返回值undefined。
+      //抛出异常会返回拒绝的期约。
+      //返回错误值不会触发上面的拒绝行为，而会把错误对象包装在一个解决的期约中。
+
+      let p5 = new Promise((resolve) => {
+        resolve("p5");
+      });
+      let p6 = p5.then((value) => {
+        return `p6-${value}`;
+      });
+      setTimeout(console.log, 0, p6); // Promise {<fulfilled>: 'p6-p5'}
+
+      let p3 = new Promise((resolve) => {
+        resolve("p3");
+      });
+      let p4 = p3.then();
+      setTimeout(console.log, 0, p4); // Promise <fulfilled> p3
+
+      let p1 = new Promise(() => {});
+      let p2 = p1.then(() => {});
+      setTimeout(console.log, 0, p2); // Promise <pending>: undefined
+      setTimeout(console.log, 0, p1 === p2); // false
+
+      let p9 = new Promise.resolve("foo");
+      let p10 = p9.then(() => {
+        throw "baz";
+      });
+      // Uncaught (in promise) baz
+      setTimeout(console.log, 0, p10); // Promise <rejected> baz
+
+      let p11 = p9.then(() => Error("qux"));
+      setTimeout(console.log, 0, p11); // Promise <resolved>: Error: qux
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let p1 = new Promise((resolve, reject) => reject(Error("foo")));
+      let p2 = new Promise((resolve, reject) => {
+        throw Error("foo");
+      });
+      let p3 = Promise.resolve().then(() => {
+        throw Error("foo");
+      });
+      let p4 = Promise.reject(Error("foo"));
+      setTimeout(console.log, 0, p1); // Promise <rejected>: Error: foo
+      setTimeout(console.log, 0, p2); // Promise <rejected>: Error: foo
+      setTimeout(console.log, 0, p3); // Promise <rejected>: Error: foo
+      setTimeout(console.log, 0, p4); // Promise <rejected>: Error: foo
+
+      //Promise.resolve().then()的错误最后才出现，这是因为它需要在运行时消息队列中添加处理程序；也就是说，在最终抛出未捕获错误之前它还会创建另一个期约
+      /**
+         * 
+        Uncaught (in promise) Error: foo
+        at Promise (test.html:5)
+        at new Promise (<anonymous>)
+        at test.html:5
+        Uncaught (in promise) Error: foo
+        at Promise (test.html:6)
+        at new Promise (<anonymous>)
+        at test.html:6
+        Uncaught (in promise) Error: foo
+        at test.html:8
+        Uncaught (in promise) Error: foo
+        at Promise.resolve.then (test.html:7) 
+         */
+    </script>
+  </body>
+</html>

@@ -18,20 +18,19 @@
         return x + 5;
       }
       function addTen(x) {
-        return addFive(addTwo(addThree(x)));
-      }
-      console.log(addTen(7)); // 17
-
-      function addTen(x) {
         return Promise.resolve(x).then(addTwo).then(addThree).then(addFive);
       }
+      addTen(8).then(console.log); // 18
 
+      //reduce接收两个参数，对每一项都会运行的归并函数，以及可选的以之为归并起点的初始值。
       function addTen(x) {
         return [addTwo, addThree, addFive].reduce(
           (promise, fn) => promise.then(fn),
-          Promise.resolve(x)
+          Promise.resolve(x) //
         );
       }
+      addTen(8).then(console.log); // 18
+
       function compose(...fns) {
         return (x) =>
           fns.reduce((promise, fn) => promise.then(fn), Promise.resolve(x));

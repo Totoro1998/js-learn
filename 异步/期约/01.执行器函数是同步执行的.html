@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let p = new Promise((resolve, reject) => {
+        setTimeout(console.log("executor"), 0);
+      });
+      setTimeout(console.log, 0, "promise initialized");
+      //executor
+      //promise initialized
+
+      //为避免期约卡在待定状态，可以添加一个定时退出功能。
+
+      let p1 = new Promise((resolve, reject) => {
+        setTimeout(reject, 10000); // 10 秒后调用 reject()
+        // 执行函数的逻辑
+      });
+      setTimeout(console.log, 0, p); // Promise <pending>
+      setTimeout(console.log, 11000, p); // 11 秒后再检查状态
+      // (After 10 seconds) Uncaught error
+      // (After 11 seconds) Promise <rejected>
+    </script>
+  </body>
+</html>

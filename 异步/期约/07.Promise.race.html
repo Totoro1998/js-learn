@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let p1 = Promise.race([
+        setTimeout(() => {
+          console.log("1");
+          Promise.resolve("1");
+        }, 1000),
+        setTimeout(() => {
+          console.log("2");
+          Promise.resolve("2");
+        }, 1000),
+        setTimeout(() => {
+          console.log("3");
+          Promise.resolve("3");
+        }, 1000),
+      ]);
+      p1.then(() => {
+        console.log("4");
+      });
+      // 07.Promise.race.html:26 1
+      // 07.Promise.race.html:13 1
+      // 07.Promise.race.html:17 2
+      // 07.Promise.race.html:21 3
+
+      console.log(
+        "----------------------------------------------------------------"
+      );
+      let p2 = Promise.race([
+        new Promise((resolve, reject) =>
+          setTimeout(() => {
+            console.log("1");
+            resolve(1);
+          }, 1000)
+        ),
+        new Promise((resolve, reject) =>
+          setTimeout(() => {
+            console.log("2");
+            resolve(2);
+          }, 2000)
+        ),
+        new Promise((resolve, reject) =>
+          setTimeout(() => {
+            console.log("3");
+            resolve(3);
+          }, 3000)
+        ),
+      ]);
+      p2.then(() => {
+        console.log("4");
+      });
+      //1
+      //4
+      //2
+      //3
+    </script>
+  </body>
+</html>
