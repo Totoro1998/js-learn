@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function loadScript(src, callback) {
+        let script = document.createElement("script");
+        script.src = src;
+
+        script.onload = () => callback(null, script);
+        script.onerror = () =>
+          callback(new Error(`Script load error for ${src}`));
+
+        document.head.append(script);
+      }
+      // 用法：
+      // loadScript('path/script.js', (err, script) => {...})
+
+      function loadScriptPromise(src) {
+        return new Promise((resolve, reject) => {
+          loadScript(src, (error, script) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(script);
+            }
+          });
+        });
+      }
+      // 用法：
+      // loadScriptPromise('path/script.js').then(...)
+
+      function promisify(fn) {
+        return function (...args) {
+          return new Promise((resolve, reject) => {
+            //对函数fn的自定义回调,相当于调用fn时不传callback回调函数，使用下面的自定义回调
+            function callback(err, result) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            }
+            args.push(callback);
+            fn.call(this, ...args);
+          });
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Thenable {
+        constructor(num) {
+          console.log("Thenable constructor");
+          this.num = num;
+        }
+        then(resolve, reject) {
+          // 必须使用resolve返回值，相当于Promise.resolve()
+          console.log("Thenable then");
+          //   resolve(this.num * 2);
+          reject(this.num * 2);
+          //   return this.num * 2;
+        }
+      }
+      new Promise((resolve) => resolve(1))
+        .then((res) => {
+          console.log("Promise then");
+          return new Thenable(res);
+        })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((result) => {
+          console.log(result); //2
+        });
+
+      // Promise then
+      //Thenable constructor
+      //Thenable then
+    </script>
+  </body>
+</html>

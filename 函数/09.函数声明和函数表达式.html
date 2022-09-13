@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //   "use strict"; //使用严格模式时不会出现函数提升，如果去掉就存在
+      let age = prompt("What is your age?", 18);
+      // 有条件地声明一个函数
+      if (age < 18) {
+        function welcome() {
+          alert("Hello!");
+        }
+      } else {
+        function welcome() {
+          alert("Greetings!");
+        }
+      }
+      welcome(); // Error: welcome is not defined
+
+      let age1 = 16; // 拿 16 作为例子
+      if (age1 < 18) {
+        welcome1();
+        function welcome1() {
+          alert("Hello!"); //  |  函数声明在声明它的代码块内任意位置都可用
+        }
+        welcome1(); // /   (运行)
+      } else {
+        function welcome1() {
+          alert("Greetings!");
+        }
+      }
+      // 在这里，我们在花括号外部调用函数，我们看不到它们内部的函数声明。
+      welcome1(); // Error: welcome1 is not defined
+    </script>
+  </body>
+</html>
