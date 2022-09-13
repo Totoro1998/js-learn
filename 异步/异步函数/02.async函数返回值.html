@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function foo() {
+        console.log(1);
+        return 3;
+      }
+      // 给返回的期约添加一个解决处理程序
+      foo().then(console.log);
+      console.log(2);
+      // 1
+      // 2
+      // 3
+
+      // 返回一个实现了 thenable 接口的非期约对象
+      async function baz() {
+        const thenable = {
+          then(callback) {
+            callback("baz");
+          },
+        };
+        return thenable;
+      }
+      baz().then(console.log);
+      // baz
+
+      //未使用await
+      async function foo_1() {
+        console.log(1);
+        throw 3;
+      }
+      // 给返回的期约添加一个拒绝处理程序
+      foo_1().catch(console.log);
+      console.log(2);
+      // 1
+      // 2
+      // 3
+
+      //未使用await
+      async function foo_2() {
+        console.log(1);
+        Promise.reject(3);
+      }
+      // Attach a rejected handler to the returned promise
+      foo_2().catch(console.log);
+      console.log(2);
+      // 1
+      // 2
+      // Uncaught (in promise): 3
+    </script>
+  </body>
+</html>

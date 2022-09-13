@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function fooPromiseExecutor(resolve, reject) {
+        setTimeout(reject, 1000, "bar");
+      }
+      function foo() {
+        new Promise(fooPromiseExecutor);
+      }
+      foo();
+      // Uncaught (in promise) bar
+      // setTimeout
+      // setTimeout (async)
+      // fooPromiseExecutor
+      // foo
+
+      async function foo_1() {
+        await new Promise(fooPromiseExecutor);
+      }
+      foo_1();
+      // Uncaught (in promise) bar
+      // foo
+      // async function (async)
+      // foo
+    </script>
+  </body>
+</html>

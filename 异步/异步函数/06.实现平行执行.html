@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      async function randomDelay(id) {
+        // 延迟 0~1000 毫秒
+        const delay = Math.random() * 1000;
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            console.log(`${id} finished`);
+            resolve();
+          }, delay)
+        );
+      }
+      async function foo() {
+        const t0 = Date.now();
+        for (let i = 0; i < 5; ++i) {
+          await randomDelay(i);
+        }
+        console.log(`${Date.now() - t0}ms elapsed`);
+      }
+      //   foo();
+
+      async function randomDelay_1(id) {
+        // 延迟 0~1000 毫秒
+        const delay = Math.random() * 1000;
+        return new Promise((resolve) =>
+          setTimeout(() => {
+            console.log(`${id} finished`);
+            resolve(id);
+          }, delay)
+        );
+      }
+      //如果顺序不是必需保证的，那么可以先一次性初始化所有期约，然后再分别等待它们的结果
+      async function foo_1() {
+        const t0 = Date.now();
+        const promises = Array(5)
+          .fill(null)
+          .map((_, i) => randomDelay_1(i));
+        for (const p of promises) {
+          //虽然期约没有按照顺序执行，但 await 按顺序收到了每个期约的值
+          console.log(`awaited ${await p}`);
+        }
+        console.log(`${Date.now() - t0}ms elapsed`);
+      }
+      foo_1();
+    </script>
+  </body>
+</html>

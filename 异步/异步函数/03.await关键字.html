@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 等待一个原始值
+      async function foo() {
+        console.log(await "foo");
+      }
+      foo();
+      // foo
+      // 等待一个没有实现 thenable 接口的对象
+      async function bar() {
+        console.log(await ["bar"]);
+      }
+      bar();
+      // ['bar']
+      // 等待一个实现了 thenable 接口的非期约对象
+      async function baz() {
+        const thenable = {
+          then(callback) {
+            callback("baz");
+          },
+        };
+        console.log(await thenable);
+      }
+      baz();
+      // baz
+
+      //等待会抛出错误的同步操作，会返回拒绝的期约：
+      async function foo_1() {
+        console.log(1);
+        await (() => {
+          throw 3;
+        })();
+      }
+      // 给返回的期约添加一个拒绝处理程序
+      foo_1().catch(console.log);
+      console.log(2);
+    </script>
+  </body>
+</html>
