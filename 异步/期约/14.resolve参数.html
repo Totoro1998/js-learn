@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const p1 = new Promise(function (resolve, reject) {
+        setTimeout(() => {
+          console.log("P1 reject");
+          reject(new Error("fail"));
+        }, 3000);
+      });
+
+      const p2 = new Promise(function (resolve, reject) {
+        setTimeout(() => {
+          console.log("P2 resolve");
+          resolve(p1);
+        }, 1000);
+      });
+
+      p2.then((result) => console.log(result)).catch((error) =>
+        console.log(error)
+      );
+      // P2 resolve
+      // P1 reject
+      // Error: fail
+
+      //调用resolve或reject并不会终结 Promise 的参数函数的执行
+      new Promise((resolve, reject) => {
+        resolve(1);
+        console.log(2);
+      }).then((r) => {
+        console.log(r);
+      });
+    </script>
+  </body>
+</html>
