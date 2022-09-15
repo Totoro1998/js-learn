@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function* helloWorldGenerator() {
+        console.log("0000");
+
+        yield "hello";
+        console.log("1111");
+
+        yield "world";
+        console.log("2222");
+
+        return "ending";
+      }
+
+      var hw = helloWorldGenerator();
+      console.log(hw.next()); //一次调用，Generator 函数开始执行，直到遇到第一个yield表达式为止。next方法返回一个对象，它的value属性就是当前yield表达式的值hello，done属性的值false，表示遍历还没有结束。
+      //0000
+      // { value: 'hello', done: false }
+
+      console.log(hw.next()); //第二次调用，Generator 函数从上次yield表达式停下的地方，一直执行到下一个yield表达式。返回当前yield表达式的值。
+      //1111
+      //{ value: 'world', done: false }
+
+      console.log(hw.next());
+      //2222
+      // { value: 'ending', done: true }
+
+      console.log(hw.next());
+      // { value: undefined, done: true }
+    </script>
+  </body>
+</html>

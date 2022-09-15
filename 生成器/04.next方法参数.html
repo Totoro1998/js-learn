@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function* f() {
+        for (let i = 0; true; i++) {
+          //next方法可以带一个参数，该参数就会被当作上一个yield表达式的返回值。
+          //如果next方法没有参数，每次运行到yield表达式，变量reset的值总是undefined
+          //当next方法带一个参数true时，变量reset就被重置为这个参数（即true），因此i会等于-1，下一轮循环就会从-1开始递增。
+          let reset = yield i;
+          // console.log(yield); //true 此时yield不再为yield，它是next方法传入的值
+          console.log(reset); //true 此时reset将被重置为let reset = 8;没有yield
+          if (reset) {
+            i = reset;
+          }
+        }
+      }
+
+      let g = f();
+
+      console.log(g.next()); // { value: 0, done: false }
+      console.log(g.next()); // { value: 1, done: false }
+      //第三次next时，传入参数true，该参数会被当作上一次yield表达式的返回值，let reset = yield i 变成了 let reset = true
+      console.log(g.next(8)); // { value: 9, done: false }
+      console.log(g.next()); // { value: 10, done: false }
+    </script>
+  </body>
+</html>

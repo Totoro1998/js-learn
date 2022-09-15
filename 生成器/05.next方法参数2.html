@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function* foo(x) {
+        let y = 2 * (yield x + 1);
+        let z = yield y / 3;
+        return x + y + z;
+      }
+
+      let a = foo(5);
+      a.next(); // Object{value:6, done:false}
+      a.next(); // Object{value:NaN, done:false} //因为next方法不带参数，所以上一个yield返回值为undefined，y为NaN
+      a.next(); // Object{value:NaN, done:true}
+
+      let b = foo(5);
+      b.next(); // { value:6, done:false }
+      b.next(12); // { value:8, done:false } 24/3 y为24
+      b.next(13); // { value:42, done:true } z为13，y为24，x为5
+    </script>
+  </body>
+</html>

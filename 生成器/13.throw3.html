@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var gen = function* gen() {
+        try {
+          yield console.log("a");
+        } catch (e) {}
+        yield console.log("b");
+        yield console.log("c");
+      };
+
+      var g = gen();
+      g.next(); // a
+      g.throw(); // b //throw方法被捕获以后，会附带执行下一条yield表达式。也就是说，会附带执行一次next方法。
+      g.next(); // c
+    </script>
+  </body>
+</html>

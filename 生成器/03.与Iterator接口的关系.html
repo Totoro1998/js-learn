@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var myIterable = {};
+      myIterable[Symbol.iterator] = function* () {
+        yield 1;
+        yield 2;
+        yield 3;
+      };
+
+      [...myIterable]; // [1, 2, 3]
+
+      function* gen() {
+        // some code
+      }
+
+      //gen是一个 Generator 函数，调用它会生成一个遍历器对象g。g的Symbol.iterator属性，也是一个遍历器对象生成函数，执行后返回它自己
+      var g = gen();
+
+      g[Symbol.iterator]() === g;
+      // true
+    </script>
+  </body>
+</html>

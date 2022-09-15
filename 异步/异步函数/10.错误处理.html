@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //防止出错的方法，是将其放在try...catch代码块之中
+      async function f() {
+        try {
+          await new Promise(function (resolve, reject) {
+            throw new Error("出错了");
+          });
+        } catch (e) {}
+        return await "hello world";
+      }
+
+      const superagent = require("superagent");
+      const NUM_RETRIES = 3;
+
+      async function test() {
+        let i;
+        for (i = 0; i < NUM_RETRIES; ++i) {
+          try {
+            await superagent.get("http://google.com/this-throws-an-error");
+            break;
+          } catch (err) {}
+        }
+        console.log(i); // 3
+      }
+
+      test();
+    </script>
+  </body>
+</html>

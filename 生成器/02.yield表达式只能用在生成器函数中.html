@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //会产生句法错误，因为forEach方法的参数是一个普通函数，但是在里面使用了yield表达式
+      //       var arr = [1, [[2, 3], 4], [5, 6]];
+
+      // var flat = function* (a) {
+      //   a.forEach(function (item) {
+      //     if (typeof item !== 'number') {
+      //       yield* flat(item);
+      //     } else {
+      //       yield item;
+      //     }
+      //   });
+      // };
+
+      // for (var f of flat(arr)){
+      //   console.log(f);
+      // }
+
+      var arr = [1, [[2, 3], 4], [5, 6]];
+
+      var flat = function* (a) {
+        var length = a.length;
+        for (var i = 0; i < length; i++) {
+          var item = a[i];
+          if (typeof item !== "number") {
+            yield* flat(item);
+          } else {
+            yield item;
+          }
+        }
+      };
+
+      for (var f of flat(arr)) {
+        console.log(f);
+      }
+      // 1, 2, 3, 4, 5, 6
+    </script>
+  </body>
+</html>

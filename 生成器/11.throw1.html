@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var g = function* () {
+        try {
+          yield;
+        } catch (e) {
+          console.log("内部捕获", e);
+        }
+      };
+
+      var i = g();
+      i.next();
+
+      try {
+        i.throw("a");
+        i.throw("b");
+      } catch (e) {
+        console.log("外部捕获", e);
+      }
+      // 内部捕获 a
+      // 外部捕获 b
+
+      //第一个错误被 Generator 函数体内的catch语句捕获。
+      //i第二次抛出错误，由于 Generator 函数内部的catch语句已经执行过了，不会再捕捉到这个错误了，所以这个错误就被抛出了 Generator 函数体，被函数体外的catch语句捕获。
+    </script>
+  </body>
+</html>
