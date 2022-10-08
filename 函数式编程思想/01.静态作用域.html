@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let x = 1;
+
+      function f() {
+        let x = 3;
+        g();
+      }
+
+      function g() {
+        //读取变量x。
+        console.log(x);
+        //写入变量x。
+        x = 2;
+      }
+
+      f();
+      //=> 1
+      console.log(x);
+      //=> 2
+    </script>
+  </body>
+</html>

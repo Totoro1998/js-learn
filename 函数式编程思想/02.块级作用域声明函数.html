@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //在严格模式下，块级作用域内声明的函数作用域是该包含块，非严格模式下块级作用域内声明的函数作用域是该包含块所在的函数（或全局对象）。
+      //   foo(); //=> ReferenceError: foo is not defined
+      {
+        //foo被提升到包围它的包块顶部。
+        foo();
+        //=> foo
+        //在内嵌包块中声明的函数。
+        function foo() {
+          console.log("foo");
+        }
+      }
+      //foo的作用域仍然是包围它的函数。
+      foo();
+      //=> foo
+    </script>
+  </body>
+</html>
