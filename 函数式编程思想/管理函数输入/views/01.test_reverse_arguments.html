@@ -27,16 +27,16 @@
       // later:
       cacheResult("http://some.api/person", { user: "fk", id: 1 });
 
-      function partialRight(fn, ...presetArgs) {
+      function partialRight0(fn, ...presetArgs) {
         return reverseArgs(partial(reverseArgs(fn), ...presetArgs.reverse()));
       }
-      let cacheResult1 = partialRight(ajax, function onResult(obj) {
+      let cacheResult1 = partialRight0(ajax, function onResult(obj) {
         cache[obj.id] = obj;
       });
       // later:
       cacheResult1("http://some.api/person", { user: "fk", id: 1 });
 
-      function partialRight1(fn, ...presetArgs) {
+      function partialRight(fn, ...presetArgs) {
         return function partiallyApplied(...laterArgs) {
           return fn(...laterArgs, ...presetArgs);
         };
@@ -46,7 +46,7 @@
         console.log(x, y, z, rest);
       }
 
-      var f = partialRight1(foo, "z:last");
+      var f = partialRight(foo, "z:last");
 
       f(1, 2); // 1 2 "z:last" []
 
