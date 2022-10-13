@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="module">
+      import { curry, looseCurry, uncurry } from "../07.curry.js";
+      function add(a, b, c) {
+        console.log(a, b, c);
+        return a + b + c;
+      }
+      const curried_add = curry(add);
+      //prevArgs []
+      console.log(curried_add);
+
+      const first = curried_add(1);
+      //prevArgs [1]
+      console.log(first);
+
+      const second = first(2);
+      //prevArgs [1, 2]
+      console.log(second);
+
+      const third = second(3); //1 2 3
+      console.log(third); //6
+
+      function sum(...nums) {
+        var sum = 0;
+        for (let num of nums) {
+          sum += num;
+        }
+        return sum;
+      }
+      let curriedSum = curry(sum, 5);
+      let uncurriedSum = uncurry(curriedSum);
+      curriedSum(1)(2)(3)(4)(5); // 15
+      uncurriedSum(1, 2, 3, 4, 5); // 15
+      uncurriedSum(1, 2, 3)(4)(5); // 15
+
+      var curriedLoosedSum = looseCurry(sum, 5);
+      curriedLoosedSum(1)(2, 3)(4, 5);
+    </script>
+  </body>
+</html>

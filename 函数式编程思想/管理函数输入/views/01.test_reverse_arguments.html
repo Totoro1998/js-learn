@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- http://localhost:5500/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E6%80%9D%E6%83%B3/%E7%AE%A1%E7%90%86%E5%87%BD%E6%95%B0%E8%BE%93%E5%85%A5/views/01.test_reverse_arguments.html -->
+  </head>
+  <body>
+    <script type="module">
+      import { partial } from "../05.some_now_some_later.js";
+      import { reverseArgs } from "../06.reverse_arguments.js";
+
+      function ajax(url, data, cb) {
+        console.log(url);
+        cb(data);
+      }
+
+      let cache = {};
+
+      let cacheResult = reverseArgs(
+        partial(reverseArgs(ajax), function onResult(obj) {
+          cache[obj.id] = obj;
+        })
+      );
+      // later:
+      cacheResult("http://some.api/person", { user: "fk", id: 1 });
+
+      function partialRight(fn, ...presetArgs) {
+        return reverseArgs(partial(reverseArgs(fn), ...presetArgs.reverse()));
+      }
+      let cacheResult1 = partialRight(ajax, function onResult(obj) {
+        cache[obj.id] = obj;
+      });
+      // later:
+      cacheResult1("http://some.api/person", { user: "fk", id: 1 });
+
+      function partialRight1(fn, ...presetArgs) {
+        return function partiallyApplied(...laterArgs) {
+          return fn(...laterArgs, ...presetArgs);
+        };
+      }
+
+      function foo(x, y, z, ...rest) {
+        console.log(x, y, z, rest);
+      }
+
+      var f = partialRight1(foo, "z:last");
+
+      f(1, 2); // 1 2 "z:last" []
+
+      f(1); // 1 "z:last" undefined []
+
+      f(1, 2, 3); // 1 2 3 ["z:last"]
+
+      f(1, 2, 3, 4); // 1 2 3 [4,"z:last"]
+    </script>
+  </body>
+</html>
