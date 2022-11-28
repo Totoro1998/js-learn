@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.test {
+				width: 200px;
+				height: 200px;
+				padding: 20px;
+				border: solid black 10px;
+				margin: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="test" class="test"></div>
+		<script>
+			window.onload = function() {
+				const test_element = document.getElementById('test')
+				console.log(`test_element.clientHeight------${test_element.clientHeight}`)
+				console.log(`test_element.clientWidth------${test_element.clientWidth}`)
+				console.log(`test_element.clientTop------${test_element.clientTop}`)
+				console.log(`test_element.clientLeft------${test_element.clientLeft}`)
+				console.log(`test_element.scrollHeight------${test_element.scrollHeight}`)
+				console.log(`test_element.scrollWidth------${test_element.scrollWidth}`)
+				console.log(`test_element.scrollTop------${test_element.scrollTop}`)
+				console.log(`test_element.scrollLeft------${test_element.scrollLeft}`)
+				
+				
+
+				console.log(`window.innerHeight------${window.innerHeight}`)
+				console.log(`window.outerHeight------${window.outerHeight}`)
+				console.log(`document.documentElement.clientHeight------${document.documentElement.clientHeight}`)
+				console.log(`document.body.clientHeight------${document.body.clientHeight}`)
+
+
+				console.log(`window.innerWidth------${window.innerWidth}`)
+				console.log(`window.outerWidth------${window.outerWidth}`)
+				console.log(`document.documentElement.clientWidth------${document.documentElement.clientWidth}`)
+				console.log(`document.body.clientHeight------${document.body.clientHeight}`)
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onClick="handle_click()">测试</button>
+	<button onClick="handle_click_hash()">测试location-hash</button>
+	<button onClick="handle_click()">测试</button>
+	<div id="hash_test" name="hash_test"></div>
+
+    <script>
+      function handle_click() {
+        history.pushState({ name: "fk" },'', "navigator.html");
+      }
+	  function handle_click_hash(){
+		  location.hash = "#hash_test"
+	  }
+	  window.addEventListener('popstate',function(e){
+		  console.log(e)
+	  })
+	  window.addEventListener('hashchange',function(e){
+		  console.log(e)
+	  })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- ?q=javascript&num=10#contents -->
+	</head>
+	<body>
+		<script>
+			window.onload = function() {
+				const args = getQueryStringArgs();
+				console.log(args)
+			}
+			let getQueryStringArgs = function() {
+				// 取得没有开头问号的查询字符串
+				let qs = (location.search.length > 0 ? location.search.substring(1) : ""),
+					// 保存数据的对象
+					args = {};
+				// 把每个参数添加到 args 对象
+				for (let item of qs.split("&").map(kv => kv.split("="))) {
+					let name = decodeURIComponent(item[0]),
+						value = decodeURIComponent(item[1]);
+					if (name.length) {
+						args[name] = value;
+					}
+				}
+				return args;
+			};
+			function getQueryStringArgsByURLSearchParams() {
+				let qs = location.search;
+				let searchParams = new URLSearchParams(qs);
+				alert(searchParams.toString()); // " q=javascript&num=10"
+				searchParams.has("num"); // true
+				searchParams.get("num"); // 10
+				searchParams.set("page", "3");
+				alert(searchParams.toString()); // " q=javascript&num=10&page=3"
+				searchParams.delete("q");
+				alert(searchParams.toString()); // " num=10&page=3"
+				for (let param of searchParams) {
+					console.log(param);
+				}
+			}
+		</script>
+	</body>
+</html>

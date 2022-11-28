@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			div{
+				height: 300px;
+				width: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>1111</div>
+		<div>2222</div>
+		<div>3333</div>
+		<div>4444</div>
+		<div>555</div>
+		
+		<script>
+			window.onload = function(){
+				window.scrollBy({
+					let:400,
+					top:400,
+					behavior: 'smooth'
+				})
+			}
+			window.addEventListener('scroll',function(){
+				console.log(`window.scrollX------${window.scrollX}`)
+				console.log(`window.scrollY------${window.scrollY}`)
+			})
+		</script>
+	</body>
+</html>

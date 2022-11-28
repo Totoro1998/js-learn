@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			window.addEventListener('popstate',function(e){
+				console.log(e)
+			})
+			window.onload = function(){
+				console.log('999')
+				console.log(window.navigator)
+				Reflect.ownKeys(window.navigator).forEach((f)=>{
+					console.log(`${f}------${window.navigator[f]}`)
+				})
+			}
+
+		</script>
+	</body>
+</html>
