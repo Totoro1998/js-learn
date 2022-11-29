@@ -9,8 +9,8 @@ class myPromise {
   status = PENDING;
   value = undefined;
   reason = undefined;
-  resolve_callback = undefined;
-  reject_callback = undefined;
+  resolve_callbacks = [];
+  reject_callbacks = [];
 
   // 定义为箭头函数是因为resolve和reject在myPromise实例中调用时会指向undefined或window。
   // 改为箭头函数this绑定当前myPromise实例。
@@ -20,7 +20,10 @@ class myPromise {
     }
     this.status = FULFILLED;
     this.value = value;
-    this.resolve_callback && this.resolve_callback(this.value);
+    while (this.resolve_callbacks.length) {
+      this.resolve_callbacks.shift()(this.value);
+    }
+    // this.resolve_callbacks.forEach((callback) => callback(this.value));
   };
   reject = (reason) => {
     if (this.status !== PENDING) {
@@ -28,7 +31,10 @@ class myPromise {
     }
     this.status = REJECTED;
     this.reason = reason;
-    this.reject_callback && this.reject_callback(this.reason);
+    while (this.reject_callbacks.length) {
+      this.reject_callbacks.shift()(this.reason);
+    }
+    // this.reject_callbacks.forEach((callback) => callback(this.reason));
   };
 
   static resolve() {}
@@ -39,14 +45,19 @@ class myPromise {
   static race() {}
 
   then(resolve_callback, reject_callback) {
-    if (this.status === FULFILLED) {
-      resolve_callback(this.value);
-    } else if (this.status === REJECTED) {
-      reject_callback(this.reason);
-    } else {
-      this.resolve_callback = resolve_callback;
-      this.reject_callback = reject_callback;
-    }
+    let return_promise = new myPromise((resolve, reject) => {
+      if (this.status === FULFILLED) {
+        let result = resolve_callback(this.value);
+        resolve(result);
+      } else if (this.status === REJECTED) {
+        reject_callback(this.reason);
+      } else {
+        this.resolve_callbacks.push(resolve_callbacks);
+        this.reject_callbacks.push(reject_callback);
+      }
+    });
+
+    return return_promise;
   }
   catch(reject_callback) {}
   finally(callback) {}
