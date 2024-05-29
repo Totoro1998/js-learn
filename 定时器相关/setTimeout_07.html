@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 未激活的页面，setTimeout 的最小执行间隔是 1000ms
+      let num = 100;
+      function setTime() {
+        // 当前秒执行的计时
+        console.log(new Date().getSeconds() + "：" + num);
+        num ? num-- && setTimeout(() => setTime(), 50) : "";
+      }
+      setTime();
+    </script>
+  </body>
+</html>

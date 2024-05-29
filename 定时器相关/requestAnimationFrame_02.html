@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用 requestAnimationFrame()。
+      // requestAnimationFrame() 是一次性的。
+      (() => {
+        let n = 0;
+        function test() {
+          n++;
+          console.log(`🚀🚀hello ~ requestAnimationFrame ${n}`);
+          requestAnimationFrame(test);
+        }
+        requestAnimationFrame(test);
+      })();
+    </script>
+  </body>
+</html>

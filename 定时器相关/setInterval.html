@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const delay = 1000;
+      const startTime = performance.now();
+      let count = 0;
+      const interval = setInterval(function () {
+        count++;
+        console.log(performance.now() - (startTime + count * delay) + "ms");
+        if (count === 20) {
+          clearInterval(interval);
+        }
+      }, delay);
+      // 存在误差
+      // setInterval.html:15 1.199999999254942ms
+      // setInterval.html:15 0.599999999627471ms
+      // setInterval.html:15 1.299999998882413ms
+    </script>
+  </body>
+</html>

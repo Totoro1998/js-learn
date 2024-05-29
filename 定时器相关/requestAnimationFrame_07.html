@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button id="begin">begin</button>
+      <button id="end">end</button>
+    </div>
+    <script>
+      (() => {
+        const beginBtn = document.querySelector("#begin");
+
+        const endBtn = document.querySelector("#end");
+
+        let myRef;
+
+        beginBtn.addEventListener("click", () => {
+          myRef = requestAnimationFrame(test);
+        });
+
+        endBtn.addEventListener("click", () => {
+          cancelAnimationFrame(myRef);
+        });
+
+        function test() {
+          myRef = requestAnimationFrame(test);
+          console.log("🚀🚀~ myRef:", myRef);
+        }
+      })();
+    </script>
+  </body>
+</html>

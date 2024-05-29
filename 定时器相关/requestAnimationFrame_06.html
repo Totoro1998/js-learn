@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      (() => {
+        let myRef;
+        function test() {
+          // 一个 long 整数，请求 ID，是回调列表中唯一的标识。这个值一直在变
+          myRef = requestAnimationFrame(test);
+          console.log("🚀🚀~ myRef:", myRef);
+        }
+        myRef = requestAnimationFrame(test);
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AnimationFrame Example</title>
+  </head>
+  <body>
+    <script>
+      let frameCount = 0;
+      const startTime = performance.now();
+      function animate(timestamp) {
+        frameCount++;
+        for (let i = 0; i < 1000000; i++) {}
+        console.log(frameCount, performance.now(), timestamp);
+        if (performance.now() - startTime >= 1000) {
+          return;
+        } else {
+          requestAnimationFrame(animate);
+        }
+      }
+      animate();
+      // requestAnimationFrame_08.html:15 1 18.5 undefined
+      // requestAnimationFrame_08.html:15 2 20.799999999813735 18.4
+      // requestAnimationFrame_08.html:15 3 52.69999999925494 51.9
+      // requestAnimationFrame_08.html:15 4 86.59999999962747 85.6
+    </script>
+  </body>
+</html>

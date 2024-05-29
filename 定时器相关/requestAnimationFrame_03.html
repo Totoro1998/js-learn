@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AnimationFrame Example</title>
+  </head>
+  <body>
+    <script>
+      var frameCount = 0;
+      var startTime = performance.now();
+      function animate() {
+        frameCount++;
+        console.log(frameCount);
+        if (performance.now() - startTime >= 1000) {
+          return;
+        } else {
+          // 如果还没过一秒钟，请求下一帧
+          requestAnimationFrame(animate);
+        }
+      }
+
+      // 启动动画
+      animate();
+    </script>
+  </body>
+</html>

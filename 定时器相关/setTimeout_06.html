@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const startTime = performance.now();
+      const delay = 1000;
+      let count = 0;
+      let timer = setTimeout(doFunc, delay);
+      function doFunc() {
+        count++;
+        console.log(performance.now() - (startTime + count * 1000) + "ms");
+        if (count < 10) {
+          timer = setTimeout(doFunc, delay);
+        }
+      }
+      // 2ms
+      // setTimeout_06.html:16 3.599999999627471ms
+      // setTimeout_06.html:16 4.900000000372529ms
+      // setTimeout_06.html:16 6.199999999254942ms
+      // setTimeout_06.html:16 8.5ms
+      // setTimeout_06.html:16 10.5ms
+      //setTimeout_06.html:16 11.099999999627471ms
+      // setTimeout_06.html:16 12.5ms
+      // setTimeout_06.html:16 14ms
+      // setTimeout_06.html:16
+    </script>
+  </body>
+</html>
