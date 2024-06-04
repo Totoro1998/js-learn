@@ -18,4 +18,4 @@ function binaryToDecimal(binary) {
   return decimal;
 }
 
-console.log(decimalToBinary(1));
+console.log(decimalToBinary(1048575).length);

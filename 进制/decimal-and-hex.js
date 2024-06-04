@@ -17,11 +17,16 @@ function hexToDecimal(hex) {
   let decimal = 0;
   let length = hex.length;
   for (let i = 0; i < length; i++) {
-    decimal += hexDigits.indexOf(hex[length - 1 - i].toUpperCase()) * Math.pow(16, i); // 从右到左遍历，累加每一位的十六进制值
+    const index = hexDigits.indexOf(hex[length - 1 - i].toUpperCase());
+    decimal += index * Math.pow(16, i); // 从右到左遍历，累加每一位的十六进制值
   }
   return decimal;
 }
 
 // 测试
-console.log(decimalToHex(255)); // 输出: FF
-console.log(hexToDecimal("FF")); // 输出: 255
+console.log(decimalToHex(1114111)); // 输出: FF
+// console.log(hexToDecimal("10FFFF")); // 输出: 255
+
+console.log(hexToDecimal("1F600"));
+
+console.log((0x10ffff).toString(10));

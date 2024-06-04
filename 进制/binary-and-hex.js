@@ -35,3 +35,5 @@ function hexToBinary(hex) {
   // 去掉前导零
   return binary.replace(/^0+/, "") || "0";
 }
+
+console.log(hexToBinary("1F600"));
