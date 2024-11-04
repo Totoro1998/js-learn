@@ -8,7 +8,7 @@
   </head>
   <body>
     <script>
-      //果作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法
+      // 如果作为参数的 Promise 实例，自己定义了catch方法，那么它一旦被rejected，并不会触发Promise.all()的catch方法
       const p1 = new Promise((resolve, reject) => {
         resolve("hello");
       })
