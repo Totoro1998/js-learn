@@ -3,13 +3,13 @@ const blob = new Blob(blobParts, { type: "text/html" }); // 得到 blob
 
 const decoder = new TextDecoder();
 
-console.log(blob.stream());
+// console.log(blob.stream());
 
-console.log(blob.slice(0, 10));
+// console.log(blob.slice(0, 10));
 
-blob.text().then((res) => {
-  console.log(res);
-});
+// blob.text().then((res) => {
+//   console.log(res); // <q id="a"><span id="b">hey!</span></q>
+// });
 
 blob.arrayBuffer().then((res) => {
   console.log(res);
